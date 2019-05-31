@@ -10,9 +10,11 @@ namespace VKAPI;
 $API = new VK;
 $API->auth ('логин', 'пароль');
 
-$API->users->get ([
+print_r ($API->users->get ([
     'user_ids' => 1
-]);
+]));
+
+print_r ($API->users->get ()); // Сам себя~
 ```
 
 ### LongPoll API

@@ -45,6 +45,6 @@ class Method
      */
     public function __call (string $name, array $params): ?array
     {
-        return $this->call ($name, $params);
+        return $this->call ($name, $params[0] ?? []);
     }
 }
