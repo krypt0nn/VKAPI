@@ -18,31 +18,44 @@ class VK
         ['3502557', 'PEObAuQi6KloPM4T30DV']
     ];
 
-    static $api_version = '5.95'; // Версия VK API
+    static $api_version = '5.101'; // Версия VK API
 
     public $token; // Токен доступа
 
     /**
      * Прямая авторизация
      * 
-     * @param string $login - логин пользователя
-     * @param string $password - пароль
-     * [@param string $scope = '...'] - разрешения доступа
+     * @param string $login                 - логин пользователя
+     * @param string $password              - пароль
+     * [@param callable $validation = null] - функция обработки 2ФА 
+     * [@param string $scope = '...']       - разрешения доступа
+     * [@param int $dfacode = null]         - ключ дфуфакторовой аутентификации
      * 
-     * @return bool - возвращает статус авторизации
+     * @return VK - возвращает сам себя
+     * 
+     * @throws \Exception - выбрасывает исключение при ошибке авторизации
      */
-    public function auth (string $login, string $password, string $scope = 'notify,friends,photos,audio,video,stories,pages,status,notes,messages,wall,offline,docs,groups,email'): bool
+    public function auth (string $login, string $password, callable $validation = null, string $scope = 'notify,friends,photos,audio,video,stories,pages,status,notes,messages,wall,offline,docs,groups,email', int $dfacode = null): VK
     {
         $authServer = rand (0, sizeof (self::$authServers) - 1);
 
-        $data = json_decode (@file_get_contents ('https://api.vk.com/oauth/token?grant_type=password&client_id='. self::$authServers[$authServer][0] .'&scope='. $scope .'&client_secret='. self::$authServers[$authServer][1] .'&username='. urlencode ($login) .'&password='. urlencode ($password)), true);
+        $data = json_decode (@file_get_contents ('https://api.vk.com/oauth/token?grant_type=password&client_id='. self::$authServers[$authServer][0] .'&scope='. $scope .'&client_secret='. self::$authServers[$authServer][1] .'&username='. urlencode ($login) .'&password='. urlencode ($password) .'&2fa_supported=1'. ($dfacode !== null ? '&code='. $dfacode : ''), false, stream_context_create ([
+            'http' => [
+                'ignore_errors' => true
+            ]
+        ])), true);
 
         if (!isset ($data['access_token']))
-            return false;
+        {
+            if (isset ($data['error']) && $data['error'] == 'need_validation' && $validation !== null)
+                return $this->auth ($login, $password, $validation, $scope, $validation ($data));
+
+            throw new \Exception ('Auth error. Data: '. PHP_EOL . PHP_EOL . print_r ($data, true));
+        }
         
         $this->token = $data['access_token'];
 
-        return true;
+        return $this;
     }
 
     /**
