@@ -7,22 +7,7 @@ namespace VKAPI;
  */
 abstract class Button
 {
-    public $color     = 'primary'; // Цвет кнопки (primary, secondary, positive или negative)
     protected $action = []; // Параметры кнопки
-
-    /**
-     * Установка цвета кнопки
-     * 
-     * @param string $color - цвет для установки (см. выше)
-     * 
-     * @return Button - возвращает сам себя
-     */
-    public function setColor (string $color): Button
-    {
-        $this->color = $color;
-
-        return $this;
-    }
 
     /**
      * Получение массива кнопки
@@ -31,10 +16,7 @@ abstract class Button
      */
     public function toArray (): array
     {
-        return [
-            'color'  => $this->color,
-            'action' => $this->action
-        ];
+        return ['action' => $this->action];
     }
 
     /**
