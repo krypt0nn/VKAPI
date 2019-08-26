@@ -12,9 +12,9 @@ class Location extends Button
     /**
      * Конструктор
      * 
-     * [@param string $payload = ''] - нагрузка кнопки
+     * [@param array $payload = []] - нагрузка кнопки
      */
-    public function __construct (string $payload = '')
+    public function __construct (array $payload = [])
     {
         $this->action = [
             'type'    => 'location',

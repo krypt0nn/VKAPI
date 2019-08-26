@@ -12,10 +12,10 @@ class VKPay extends Button
     /**
      * Конструктор
      * 
-     * @param string $hash           - конфигурация оплаты VK Pay
-     * [@param string $payload = ''] - нагрузка кнопки
+     * @param string $hash          - конфигурация оплаты VK Pay
+     * [@param array $payload = []] - нагрузка кнопки
      */
-    public function __construct (string $hash, string $payload = '')
+    public function __construct (string $hash, array $payload = [])
     {
         $this->action = [
             'type'    => 'vkpay',

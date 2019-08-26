@@ -12,10 +12,10 @@ class Text extends Button
     /**
      * Конструктор
      * 
-     * @param string $label          - текст кнопки
-     * [@param string $payload = ''] - нагрузка кнопки
+     * @param string $label         - текст кнопки
+     * [@param array $payload = []] - нагрузка кнопки
      */
-    public function __construct (string $label, string $payload = '')
+    public function __construct (string $label, array $payload = [])
     {
         $this->action = [
             'type'    => 'text',
