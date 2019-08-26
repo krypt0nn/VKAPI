@@ -29,7 +29,7 @@ class VK
      * @param string $password              - пароль
      * [@param callable $validation = null] - функция обработки 2ФА 
      * [@param string $scope = '...']       - разрешения доступа
-     * [@param int $dfacode = null]         - ключ дфуфакторовой аутентификации
+     * [@param int $dfacode = null]         - ключ дфуфакторной аутентификации
      * 
      * @return VK - возвращает сам себя
      * 

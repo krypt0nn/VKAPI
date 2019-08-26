@@ -21,11 +21,11 @@ class Buttons
      */
     public function add (int $row, Button $button): Buttons
     {
-        if ($row < 0 || $row > 3)
-            throw new \Exception ('$row param must be in range [0; 3]');
+        if ($row < 0 || $row > 9)
+            throw new \Exception ('$row param must be in range [0; 9]');
 
-        if (sizeof ($this->buttons) == 10)
-            throw new \Exception ('You can not set more than 10 buttons in one row');
+        if (sizeof ($this->buttons) == 4)
+            throw new \Exception ('You can not set more than 4 buttons in one row');
         
         $this->buttons[$row][] = $button;
 
@@ -45,11 +45,11 @@ class Buttons
      */
     public function set (int $row, int $column, Button $button): Buttons
     {
-        if ($row < 0 || $row > 3)
-            throw new \Exception ('$row param must be in range [0; 3]');
+        if ($row < 0 || $row > 9)
+            throw new \Exception ('$row param must be in range [0; 9]');
 
-        if ($column < 0 || $column > 9)
-            throw new \Exception ('$column param must be in range [0; 9]');
+        if ($column < 0 || $column > 3)
+            throw new \Exception ('$column param must be in range [0; 3]');
         
         $this->buttons[$row][$column] = $button;
 
