@@ -11,6 +11,20 @@ abstract class Button
     protected $action = []; // Параметры кнопки
 
     /**
+     * Установка цвета кнопки
+     * 
+     * @param string $color - цвет для установки (см. выше)
+     * 
+     * @return Button - возвращает сам себя
+     */
+    public function setColor (string $color): Button
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
      * Получение массива кнопки
      * 
      * @return array - возвращает массив кнопки
