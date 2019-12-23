@@ -62,11 +62,9 @@ class LongPoll
                     $this->ts     = $data['response']['ts'];
 
                     return $this->getUpdates ($mode, $wait);
-                break;
 
                 default:
                     throw new \Exception ('Catched some error at working with LongPoll API. Error info:'. PHP_EOL . PHP_EOL . print_r ($data, true));
-                break;
             }
 
         $this->ts = $data['ts'];

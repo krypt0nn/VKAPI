@@ -27,22 +27,8 @@ namespace VKAPI;
 
 $API = (new VK)->auth ('логин', 'пароль', function ()
 {
-    $input  = '';
-    $stream = fopen ('php://stdin', 'r');
-
-    echo '2fa code: ';
-
-    do
-    {
-        $input .= stream_get_contents ($stream, 1);
-    }
-
-    while (substr ($input, -2) != "\r\n");
-
-    fclose ($stream);
-
     // Читаем и возвращаем 2ФА код, который ввёл пользователь (в консоль)
-    return substr ($input, 0, -2);
+    return trim (readline ('2fa code: '));
 });
 ```
 

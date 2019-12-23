@@ -23,7 +23,7 @@ class VK
     public $token; // Токен доступа
 
     /**
-     * Прямая авторизация
+     * Прямая авторизация (через готовые приложения)
      * 
      * @param string $login                 - логин пользователя
      * @param string $password              - пароль
@@ -48,7 +48,43 @@ class VK
         if (!isset ($data['access_token']))
         {
             if (isset ($data['error']) && $data['error'] == 'need_validation' && $validation !== null)
-                return $this->auth ($login, $password, $validation, $scope, $validation ($data));
+                return $this->authBy (self::$authServers[$authServer][0], self::$authServers[$authServer][1], $login, $password, $validation, $scope, $validation ($data));
+
+            throw new \Exception ('Auth error. Data: '. PHP_EOL . PHP_EOL . print_r ($data, true));
+        }
+        
+        $this->token = $data['access_token'];
+
+        return $this;
+    }
+
+    /**
+     * Прямая авторизация (через собственное приложение)
+     * 
+     * @param string $appId                 - ID приложения ВК
+     * @param string $appSecret             - секретный ключ приложения
+     * @param string $login                 - логин пользователя
+     * @param string $password              - пароль
+     * [@param callable $validation = null] - функция обработки 2ФА 
+     * [@param string $scope = '...']       - разрешения доступа
+     * [@param int $dfacode = null]         - ключ дфуфакторной аутентификации
+     * 
+     * @return VK - возвращает сам себя
+     * 
+     * @throws \Exception - выбрасывает исключение при ошибке авторизации
+     */
+    public function authBy (string $appId, string $appSecret, string $login, string $password, callable $validation = null, string $scope = 'notify,friends,photos,audio,video,stories,pages,status,notes,messages,wall,offline,docs,groups,email', int $dfacode = null): VK
+    {
+        $data = json_decode (@file_get_contents ('https://api.vk.com/oauth/token?grant_type=password&client_id='. $appId .'&scope='. $scope .'&client_secret='. $appSecret .'&username='. urlencode ($login) .'&password='. urlencode ($password) .'&2fa_supported=1'. ($dfacode !== null ? '&code='. $dfacode : ''), false, stream_context_create ([
+            'http' => [
+                'ignore_errors' => true
+            ]
+        ])), true);
+
+        if (!isset ($data['access_token']))
+        {
+            if (isset ($data['error']) && $data['error'] == 'need_validation' && $validation !== null)
+                return $this->authBy ($appId, $appSecret, $login, $password, $validation, $scope, $validation ($data));
 
             throw new \Exception ('Auth error. Data: '. PHP_EOL . PHP_EOL . print_r ($data, true));
         }
