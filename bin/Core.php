@@ -7,20 +7,22 @@ namespace VKAPI;
  */
 class VK
 {
-    /**
-     * Список официальных приложений для прямой авторизации
-     */
-    static $authServers = [
-        ['2274003', 'hHbZxrka2uZ6jB1inYsH'],
-        ['3140623', 'VeWdmVclDCtn6ihuP1nt'],
-        ['3682744', 'mY6CDUswIVdJLCD3j15n'],
-        ['3697615', 'AlVXZFMUqyrnABp8ncuU'],
-        ['3502557', 'PEObAuQi6KloPM4T30DV']
-    ];
+    public string $token; // Токен доступа
 
-    static $api_version = '5.101'; // Версия VK API
+    public function __construct (string $token = null, string $password = null, callable $validation = null, string $appId = null, string $appSecret = null, string $scope = DEFAULT_SCOPE)
+    {
+        if ($token !== null)
+            if ($password === null)
+                $this->token = $token;
+                
+            elseif ($appId === null)
+                $this->auth ($token, $password, $validation, $scope);
+            
+            elseif ($appSecret !== null)
+                $this->authBy ($appId, $appSecret, $token, $password, $validation, $scope);
 
-    public $token; // Токен доступа
+            else throw new \Exception ('You must enter app secret');
+    }
 
     /**
      * Прямая авторизация (через готовые приложения)
@@ -35,11 +37,11 @@ class VK
      * 
      * @throws \Exception - выбрасывает исключение при ошибке авторизации
      */
-    public function auth (string $login, string $password, callable $validation = null, string $scope = 'notify,friends,photos,audio,video,stories,pages,status,notes,messages,wall,offline,docs,groups,email', int $dfacode = null): VK
+    public function auth (string $login, string $password, callable $validation = null, string $scope = DEFAULT_SCOPE, int $dfacode = null): VK
     {
-        $authServer = rand (0, sizeof (self::$authServers) - 1);
+        $authServer = rand (0, sizeof (AUTH_SERVERS) - 1);
 
-        $data = json_decode (@file_get_contents ('https://api.vk.com/oauth/token?grant_type=password&client_id='. self::$authServers[$authServer][0] .'&scope='. $scope .'&client_secret='. self::$authServers[$authServer][1] .'&username='. urlencode ($login) .'&password='. urlencode ($password) .'&2fa_supported=1'. ($dfacode !== null ? '&code='. $dfacode : ''), false, stream_context_create ([
+        $data = json_decode (@file_get_contents ('https://api.vk.com/oauth/token?grant_type=password&client_id='. AUTH_SERVERS[$authServer][0] .'&scope='. $scope .'&client_secret='. AUTH_SERVERS[$authServer][1] .'&username='. urlencode ($login) .'&password='. urlencode ($password) .'&2fa_supported=1'. ($dfacode !== null ? '&code='. $dfacode : ''), false, stream_context_create ([
             'http' => [
                 'ignore_errors' => true
             ]
@@ -48,7 +50,7 @@ class VK
         if (!isset ($data['access_token']))
         {
             if (isset ($data['error']) && $data['error'] == 'need_validation' && $validation !== null)
-                return $this->authBy (self::$authServers[$authServer][0], self::$authServers[$authServer][1], $login, $password, $validation, $scope, $validation ($data));
+                return $this->authBy (AUTH_SERVERS[$authServer][0], AUTH_SERVERS[$authServer][1], $login, $password, $validation, $scope, $validation ($data));
 
             throw new \Exception ('Auth error. Data: '. PHP_EOL . PHP_EOL . print_r ($data, true));
         }
@@ -73,7 +75,7 @@ class VK
      * 
      * @throws \Exception - выбрасывает исключение при ошибке авторизации
      */
-    public function authBy (string $appId, string $appSecret, string $login, string $password, callable $validation = null, string $scope = 'notify,friends,photos,audio,video,stories,pages,status,notes,messages,wall,offline,docs,groups,email', int $dfacode = null): VK
+    public function authBy (string $appId, string $appSecret, string $login, string $password, callable $validation = null, string $scope = DEFAULT_SCOPE, int $dfacode = null): VK
     {
         $data = json_decode (@file_get_contents ('https://api.vk.com/oauth/token?grant_type=password&client_id='. $appId .'&scope='. $scope .'&client_secret='. $appSecret .'&username='. urlencode ($login) .'&password='. urlencode ($password) .'&2fa_supported=1'. ($dfacode !== null ? '&code='. $dfacode : ''), false, stream_context_create ([
             'http' => [
@@ -122,6 +124,6 @@ class VK
      */
     public function request (string $method, array $params): ?array
     {
-        return json_decode (@file_get_contents ('https://api.vk.com/method/'. $method .'?'. http_build_query ($params) .'&access_token='. $this->token .'&v='. self::$api_version), true);
+        return json_decode (@file_get_contents ('https://api.vk.com/method/'. $method .'?'. http_build_query ($params) .'&access_token='. $this->token .'&v='. API_VERSION), true);
     }
 }

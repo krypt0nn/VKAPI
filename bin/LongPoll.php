@@ -7,13 +7,10 @@ namespace VKAPI;
  */
 class LongPoll
 {
-    protected $API;
-    protected $key;
-    protected $server;
-    protected $ts;
-
-    // Версия LongPoll API
-    static $longpoll_version = '3';
+    protected VK $API;
+    protected string $key;
+    protected string $server;
+    protected string $ts;
     
     /**
      * Конструктор
@@ -25,7 +22,7 @@ class LongPoll
         $this->API = $API;
 
         $data = $this->API->messages->getLongPollServer ([
-            'lp_version' => self::$longpoll_version
+            'lp_version' => LONGPOLL_VERSION
         ]);
 
         if (!isset ($data['response']))
@@ -46,7 +43,7 @@ class LongPoll
      */
     public function getUpdates (int $mode = 10, int $wait = 25): array
     {
-        $data = json_decode (file_get_contents ('https://'. $this->server .'?act=a_check&key='. $this->key .'&ts='. $this->ts .'&wait='. $wait .'&mode='. $mode .'&version='. self::$longpoll_version), true);
+        $data = json_decode (file_get_contents ('https://'. $this->server .'?act=a_check&key='. $this->key .'&ts='. $this->ts .'&wait='. $wait .'&mode='. $mode .'&version='. LONGPOLL_VERSION), true);
 
         if (isset ($data['failed']))
             switch ($data['failed'])
@@ -54,7 +51,7 @@ class LongPoll
                 case 2:
                 case 3:
                     $data = $this->API->messages->getLongPollServer ([
-                        'lp_version' => self::$longpoll_version
+                        'lp_version' => LONGPOLL_VERSION
                     ]);
 
                     $this->key    = $data['response']['key'];

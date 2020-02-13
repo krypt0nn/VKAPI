@@ -7,8 +7,8 @@ namespace VKAPI;
  */
 class Method
 {
-    protected $API; // API-родитель
-    protected $method; // Префикс метода
+    protected VK $API; // API-родитель
+    protected string $method; // Префикс метода
 
     /**
      * Конструктор

@@ -7,8 +7,8 @@ namespace VKAPI;
  */
 class Keyboard
 {
-    public $API; // Объект VK API
-    public $buttons; // Объект кнопок клавиатуры
+    public VK $API; // Объект VK API
+    public Buttons $buttons; // Объект кнопок клавиатуры
 
     /**
      * Конструктор клавиатуры

@@ -1,6 +1,24 @@
 # VKAPI
 
-**VKAPI** - класс для упрощённой работы с **VK API** на **PHP** 7+
+**VKAPI** - класс для упрощённой работы с API ВКонтакте на PHP 7.4
+
+### Установка
+
+```cmd
+php qero.phar i KRypt0nn/VKAPI
+```
+
+```php
+<?php
+
+use VKAPI\VK;
+
+require 'qero-packages/autoload.php';
+
+// ...
+```
+
+> Qero можно посмотреть [здесь](https://github.com/KRypt0nn/Qero)
 
 ### Авторизация
 
@@ -9,7 +27,7 @@
 
 namespace VKAPI;
 
-$API = (new VK)->auth ('логин', 'пароль');
+$API = new VK ('логин', 'пароль');
 
 print_r ($API->users->get ([
     'user_ids' => 1
@@ -25,10 +43,10 @@ print_r ($API->users->get ()); // Сам себя~
 
 namespace VKAPI;
 
-$API = (new VK)->auth ('логин', 'пароль', function ()
+$API = new VK ('логин', 'пароль', function ()
 {
     // Читаем и возвращаем 2ФА код, который ввёл пользователь (в консоль)
-    return trim (readline ('2fa code: '));
+    return readline ('2fa code: ');
 });
 ```
 
@@ -39,8 +57,7 @@ $API = (new VK)->auth ('логин', 'пароль', function ()
 
 namespace VKAPI;
 
-$API = new VK;
-$API->token = 'токен доступа';
+$API = new VK ('токен доступа');
 ```
 
 ### LongPoll API
@@ -50,8 +67,7 @@ $API->token = 'токен доступа';
 
 namespace VKAPI;
 
-$API = (new VK)->auth ('логин', 'пароль');
-
+$API      = new VK ('логин', 'пароль');
 $longpoll = new LongPoll ($API);
 
 while (true)
@@ -68,8 +84,7 @@ namespace VKAPI;
 
 use VKAPI\Buttons\Text;
 
-$API = new VK;
-$API->token = 'токен доступа';
+$API = new VK ('токен доступа');
 
 $yes = new Text ('Yes');
 $yes->color = 'positive';

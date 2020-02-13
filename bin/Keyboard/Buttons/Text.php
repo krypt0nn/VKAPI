@@ -9,7 +9,7 @@ use VKAPI\Button;
  */
 class Text extends Button
 {
-    public $color = 'primary'; // Цвет кнопки (primary, secondary, positive или negative)
+    public string $color = 'primary'; // Цвет кнопки (primary, secondary, positive или negative)
 
     /**
      * Конструктор

@@ -7,7 +7,7 @@ namespace VKAPI;
  */
 class Buttons
 {
-    protected $buttons = []; // Массив кнопок
+    protected array $buttons = []; // Массив кнопок
 
     /**
      * Добавление кнопки

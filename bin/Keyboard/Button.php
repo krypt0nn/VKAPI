@@ -7,7 +7,7 @@ namespace VKAPI;
  */
 abstract class Button
 {
-    protected $action = []; // Параметры кнопки
+    protected array $action = []; // Параметры кнопки
 
     /**
      * Получение массива кнопки
