@@ -39,11 +39,21 @@ const DEFAULT_SCOPE = 'notify,friends,photos,audio,video,stories,pages,status,no
 require 'bin/Core.php';
 require 'bin/Method.php';
 require 'bin/LongPoll.php';
+require 'bin/Keyboard.php';
+require 'bin/Carousel.php';
 
+# Клавиатура
 require 'bin/Keyboard/Button.php';
 require 'bin/Keyboard/Buttons.php';
-require 'bin/Keyboard/Keyboard.php';
+
 require 'bin/Keyboard/Buttons/Location.php';
 require 'bin/Keyboard/Buttons/Text.php';
 require 'bin/Keyboard/Buttons/VKApps.php';
 require 'bin/Keyboard/Buttons/VKPay.php';
+require 'bin/Keyboard/Buttons/OpenLink.php';
+
+# Карусель
+require 'bin/Carousel/Element.php';
+
+require 'bin/Carousel/Elements/Text.php';
+require 'bin/Carousel/Elements/Photo.php';

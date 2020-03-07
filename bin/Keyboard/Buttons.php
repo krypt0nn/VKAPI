@@ -75,6 +75,24 @@ class Buttons
     }
 
     /**
+     * Получение списка кнопок или самой кнопки
+     * 
+     * [@param int $row = null]    - ряд для получения элемента
+     * [@param int $column = null] - колонная для получения элемента
+     * 
+     * @return mixed
+     */
+    public function get (int $row = null, int $column = null)
+    {
+        return $row === null ?
+            $this->buttons : (
+                $column === null ?
+                    $this->buttons[$row] :
+                    $this->buttons[$row][$column]
+            );
+    }
+
+    /**
      * Получение массива кнопок
      * 
      * @return array - возвращает массив кнопок
@@ -97,12 +115,6 @@ class Buttons
      */
     public function toJson (): string
     {
-        return json_encode (array_map (function ($row)
-        {
-            return array_map (function ($column)
-            {
-                return $column->toArray ();
-            }, $row);
-        }, $this->buttons));
+        return json_encode ($this->toArray ());
     }
 }

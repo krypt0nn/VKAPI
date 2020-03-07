@@ -7,7 +7,9 @@ namespace VKAPI;
  */
 class LongPoll
 {
-    protected VK $API;
+    public VK $API; // Объект VK API
+
+    # Параметры LongPoll сервера
     protected string $key;
     protected string $server;
     protected string $ts;

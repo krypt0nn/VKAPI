@@ -1,6 +1,6 @@
 # VKAPI
 
-**VKAPI** - класс для упрощённой работы с API ВКонтакте на PHP 7.4
+**VKAPI** - библиотека для упрощённой работы с API ВКонтакте на PHP 7.4
 
 ### Установка
 
@@ -19,6 +19,8 @@ require 'qero-packages/autoload.php';
 ```
 
 > Qero можно посмотреть [здесь](https://github.com/KRypt0nn/Qero)
+
+Для ручной установки необходимо распаковать библиотеку в удобное для Вас место и подключить файл ``VKAPI.php``
 
 ### Авторизация
 
@@ -75,7 +77,9 @@ while (true)
         print_r ($updates);
 ```
 
-### Keyboard API
+## Функционал сообществ
+
+### Клавиатура
 
 ```php
 <?php
@@ -84,27 +88,41 @@ namespace VKAPI;
 
 use VKAPI\Buttons\Text;
 
-$API = new VK ('токен доступа');
+# true - сделать ли клавиатуру встроенной в сообщение (inline клавиатура)
+$keyboard = new Keyboard (new VK ('токен сообщества'), true);
 
-$yes = new Text ('Yes');
-$yes->color = 'positive';
-
-$no = new Text ('No');
-$no->color = 'negative';
-
-$keyboard = new Keyboard ($API);
-
-// 0 - первый ряд
+# 0 - первый ряд
 $keyboard->buttons->add (0, new Text ('Hello, World!'));
 
-// 1 - второй ряд
-$keyboard->buttons->add (1, $yes);
-$keyboard->buttons->add (1, $no);
+# 1 - второй ряд
+$keyboard->buttons->add (1, (new Text ('Yes'))->setColor ('positive'));
+$keyboard->buttons->add (1, (new Text ('No'))->setColor ('negative'));
 
-// 1    - peer ID получателя
 // []   - дополнительные параметры message.send
 // true - клавиатура будет отображена всего 1 раз
-$keyboard->send (1, 'Тесто', [], true);
+$keyboard->send ('peer id', 'Тесто', [], true);
+```
+
+### Карусель
+
+```php
+<?php
+
+namespace VKAPI;
+
+use VKAPI\Carousel\Text;
+
+$carousel = new Carousel (new VK ('токен сообщества'));
+
+# Создаём элемент для карусели
+$element = new Text ('Привет, Мир!', 'Тестовый элемент карусели');
+$element->buttons->add (new Buttons\Text ('Я просто кнопка~~'));
+
+# Добавляем элемент в карусель
+$caruosel->add ($element);
+
+# Отправка карусели. Указать peer id получателя и сообщение для отправки
+$carousel->send ('peer id', 'Привет! Я тут карусель сделал, не посмотришь?');
 ```
 
 Автор: [Подвирный Никита](https://vk.com/technomindlp). Специально для [Enfesto Studio Group](https://vk.com/hphp_convertation)
