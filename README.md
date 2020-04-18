@@ -77,6 +77,25 @@ while (true)
         print_r ($updates);
 ```
 
+### Чат бот
+
+```php
+<?php
+
+namespace VKAPI;
+
+$API      = new VK ('логин', 'пароль');
+$longpoll = new LongPoll ($API);
+
+$bot = new Bot ($longpoll, function ($message)
+{
+    echo $message['from_id'] .' | '. $message['text'] . PHP_EOL;
+});
+
+while (true)
+    $bot->update ();
+```
+
 ## Функционал сообществ
 
 ### Клавиатура
