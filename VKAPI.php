@@ -41,6 +41,7 @@ require 'bin/Method.php';
 require 'bin/LongPoll.php';
 require 'bin/Keyboard.php';
 require 'bin/Carousel.php';
+require 'bin/Bot.php';
 
 # Клавиатура
 require 'bin/Keyboard/Button.php';
