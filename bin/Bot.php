@@ -42,7 +42,20 @@ class Bot
 
         try
         {
-            $this->selfId = @$longpoll->API->users->get ()['response'][0]['id'];
+            $this->selfId = @$longpoll->API->users->get ()['response'][0]['id'] ?? -1; 
+
+            # Если $this->selfId равен -1 - токен доступа либо недоступен,
+            # либо он принадлежит сообществу
+            if ($this->selfId === -1)
+            {
+                # Пробуем получить информацию о сообществе
+                $id = @$longpoll->API->groups->getById ()['response'][0]['id'];
+                
+                # Если токен принадлежит сообществу - $id будет int,
+                # иначе токен недействителен и код выкинет ошибку из блока catch ниже
+                $this->selfId = $id !== null ?
+                    - $id : null;
+            }
         }
 
         catch (\Throwable $e)

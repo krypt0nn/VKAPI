@@ -21,7 +21,7 @@
 
 namespace VKAPI;
 
-const API_VERSION      = '5.103'; // Версия VK API
+const API_VERSION      = '5.110'; // Версия VK API
 const LONGPOLL_VERSION = '3'; // Версия LongPoll API
 
 # Список официальных приложений для прямой авторизации

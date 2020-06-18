@@ -8,6 +8,8 @@
 php qero.phar i KRypt0nn/VKAPI
 ```
 
+[Что такое Qero?](https://github.com/KRypt0nn/Qero)
+
 ```php
 <?php
 
@@ -18,8 +20,6 @@ require 'qero-packages/autoload.php';
 // ...
 ```
 
-> Qero можно посмотреть [здесь](https://github.com/KRypt0nn/Qero)
-
 Для ручной установки необходимо распаковать библиотеку в удобное для Вас место и подключить файл ``VKAPI.php``
 
 ### Авторизация
@@ -27,7 +27,7 @@ require 'qero-packages/autoload.php';
 ```php
 <?php
 
-namespace VKAPI;
+use VKAPI\VK;
 
 $API = new VK ('логин', 'пароль');
 
@@ -43,7 +43,7 @@ print_r ($API->users->get ()); // Сам себя~
 ```php
 <?php
 
-namespace VKAPI;
+use VKAPI\VK;
 
 $API = new VK ('логин', 'пароль', function ()
 {
@@ -57,7 +57,7 @@ $API = new VK ('логин', 'пароль', function ()
 ```php
 <?php
 
-namespace VKAPI;
+use VKAPI\VK;
 
 $API = new VK ('токен доступа');
 ```
