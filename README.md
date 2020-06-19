@@ -69,13 +69,16 @@ $API = new VK ('токен доступа');
 
 namespace VKAPI;
 
-$API      = new VK ('логин', 'пароль');
+$API      = new VK ('токен доступа');
 $longpoll = new LongPoll ($API);
 
+# Бесконечно принимаем запросы от LongPoll API
 while (true)
     if (sizeof ($updates = $longpoll->getUpdates ()) > 0)
         print_r ($updates);
 ```
+
+*Поддерживается работа как с пользователями, так и с сообществами**
 
 ### Чат бот
 
@@ -84,19 +87,46 @@ while (true)
 
 namespace VKAPI;
 
-$API      = new VK ('логин', 'пароль');
+$API      = new VK ('токен доступа');
 $longpoll = new LongPoll ($API);
 
+# Создаём объект реализации чат бота
 $bot = new Bot ($longpoll, function ($message)
 {
     echo $message['from_id'] .' | '. $message['text'] . PHP_EOL;
 });
 
+# И в бесконечном цикле обновляем его
 while (true)
     $bot->update ();
 ```
 
+*Поддерживается работа как с пользователями, так и с сообществами**
+
 ## Функционал сообществ
+
+### Callback API
+
+```php
+<?php
+
+namespace VKAPI;
+
+$vk = new VK ('токен сообщества');
+$callback = new Callback ($vk, 'строка подтверждения');
+
+# Задаём обработчик события на запрос типа "message_new"
+$callback->on ('message_new', function ($params) use ($vk)
+{
+    $vk->messages->send ([
+        'message' => 'Привет! Мне показалось что ты сказал "'. $params['message']['text'] .'"',
+        'peer_id' => $params['message']['from_id']
+    ]);
+});
+
+# Выполняем обработку запроса к callback API
+$callback->process ();
+```
 
 ### Клавиатура
 
@@ -143,5 +173,7 @@ $caruosel->add ($element);
 # Отправка карусели. Указать peer id получателя и сообщение для отправки
 $carousel->send ('peer id', 'Привет! Я тут карусель сделал, не посмотришь?');
 ```
+
+Для подробной документации рекомендуется обратиться к комментариям в коде
 
 Автор: [Подвирный Никита](https://vk.com/technomindlp). Специально для [Enfesto Studio Group](https://vk.com/hphp_convertation)

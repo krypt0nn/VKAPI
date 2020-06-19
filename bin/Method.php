@@ -32,6 +32,9 @@ class Method
      */
     public function call (string $action, array $params = []): ?array
     {
+        if ($this->method == 'messages' && $action == 'send' && !isset ($params['random_id']))
+            $params['random_id'] = rand (PHP_INT_MIN, PHP_INT_MAX);
+        
         return $this->API->request ($this->method .'.'. $action, $params);
     }
 

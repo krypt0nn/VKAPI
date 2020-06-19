@@ -39,6 +39,7 @@ const DEFAULT_SCOPE = 'notify,friends,photos,audio,video,stories,pages,status,no
 require 'bin/Core.php';
 require 'bin/Method.php';
 require 'bin/LongPoll.php';
+require 'bin/Callback.php';
 require 'bin/Keyboard.php';
 require 'bin/Carousel.php';
 require 'bin/Bot.php';
