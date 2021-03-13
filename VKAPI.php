@@ -7,8 +7,8 @@
  * (at your option) any later version.
  * 
  * @package     VKAPI
- * @copyright   2019 - 2020 Podvirnyy Nikita (Observer KRypt0n_)
- * @license     GNU GPLv3 <https://www.gnu.org/licenses/gpl-3.0.html>
+ * @copyright   2019 - 2021 Podvirnyy Nikita (Observer KRypt0n_)
+ * @license     GNU GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.html>
  * @author      Podvirnyy Nikita (Observer KRypt0n_)
  * 
  * Contacts:
@@ -21,7 +21,7 @@
 
 namespace VKAPI;
 
-const API_VERSION      = '5.110'; // Версия VK API
+const API_VERSION      = '5.130'; // Версия VK API
 const LONGPOLL_VERSION = '3'; // Версия LongPoll API
 
 # Список официальных приложений для прямой авторизации
@@ -36,26 +36,26 @@ const AUTH_SERVERS = [
 # Список запросов прав доступа к API по умолчанию
 const DEFAULT_SCOPE = 'notify,friends,photos,audio,video,stories,pages,status,notes,messages,wall,offline,docs,groups,email';
 
-require 'bin/Core.php';
-require 'bin/Method.php';
-require 'bin/LongPoll.php';
-require 'bin/Callback.php';
-require 'bin/Keyboard.php';
-require 'bin/Carousel.php';
-require 'bin/Bot.php';
+require 'src/Core.php';
+require 'src/Method.php';
+require 'src/LongPoll.php';
+require 'src/Callback.php';
+require 'src/Keyboard.php';
+require 'src/Carousel.php';
+require 'src/Bot.php';
 
 # Клавиатура
-require 'bin/Keyboard/Button.php';
-require 'bin/Keyboard/Buttons.php';
+require 'src/Keyboard/Button.php';
+require 'src/Keyboard/Buttons.php';
 
-require 'bin/Keyboard/Buttons/Location.php';
-require 'bin/Keyboard/Buttons/Text.php';
-require 'bin/Keyboard/Buttons/VKApps.php';
-require 'bin/Keyboard/Buttons/VKPay.php';
-require 'bin/Keyboard/Buttons/OpenLink.php';
+require 'src/Keyboard/Buttons/Location.php';
+require 'src/Keyboard/Buttons/Text.php';
+require 'src/Keyboard/Buttons/VKApps.php';
+require 'src/Keyboard/Buttons/VKPay.php';
+require 'src/Keyboard/Buttons/OpenLink.php';
 
 # Карусель
-require 'bin/Carousel/Element.php';
+require 'src/Carousel/Element.php';
 
-require 'bin/Carousel/Elements/Text.php';
-require 'bin/Carousel/Elements/Photo.php';
+require 'src/Carousel/Elements/Text.php';
+require 'src/Carousel/Elements/Photo.php';

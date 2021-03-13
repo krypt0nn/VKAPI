@@ -1,0 +1,22 @@
+{
+    "name": "krypt0nn/vkapi",
+    "description": "PHP library for working with VK API",
+    "keywords": ["api", "vk"],
+    "version": "3.2.1",
+    "homepage": "https://github.com/KRypt0nn/VKAPI",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Nikita Podvirnyy",
+            "email": "suimin.tu.mu.ga.mi@gmail.com",
+            "homepage": "https://github.com/KRypt0nn",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "files": ["VKAPI.php"]
+    }
+}
